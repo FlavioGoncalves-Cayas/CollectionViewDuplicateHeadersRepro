@@ -1,0 +1,56 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:collectionViewDuplicateHeadersRepro="clr-namespace:CollectionViewDuplicateHeadersRepro"
+             x:Class="CollectionViewDuplicateHeadersRepro.MainPage"
+             x:DataType="collectionViewDuplicateHeadersRepro:MainPageViewModel">
+    <ContentPage.BindingContext>
+        <collectionViewDuplicateHeadersRepro:MainPageViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="*,Auto"
+          RowSpacing="16">
+        
+        <CollectionView x:Name="MyCollectionView"
+                        Grid.Row="0"
+                        IsGrouped="True"
+                        ItemSizingStrategy="MeasureAllItems"
+                        ItemsUpdatingScrollMode="KeepScrollOffset"
+                        ItemsSource="{Binding Items}"
+                        SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="16" Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate x:DataType="collectionViewDuplicateHeadersRepro:MyGroup">
+                    <Grid>
+                        <Border HorizontalOptions="Center"
+                                BackgroundColor="LightGreen">
+                            <Label Text="{Binding Header}" />
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="x:String">
+                    <Grid>
+                        <Border HorizontalOptions="Start"
+                                BackgroundColor="LightBlue"
+                                WidthRequest="100">
+                            <Label Text="{Binding}"/>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+        <Button Grid.Row="1"
+               HorizontalOptions="Center"
+               WidthRequest="200"
+               HeightRequest="80"
+               Text="Click this button to shrink/grow the CollectionView by toggling a bottom margin"
+               LineBreakMode="WordWrap"
+               Clicked="Button_OnClicked"/>
+        
+    </Grid>
+
+</ContentPage>
